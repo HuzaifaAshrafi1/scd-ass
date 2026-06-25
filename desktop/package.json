@@ -1,0 +1,68 @@
+{
+  "name": "wechat-cloned-desktop",
+  "version": "1.0.0",
+  "description": "Installable desktop shell for WeChat Cloned.",
+  "main": "main.js",
+  "author": "WeChat Cloned",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis --x64",
+    "pack": "electron-builder --dir --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3",
+    "socket.io-client": "4.7.5"
+  },
+  "build": {
+    "appId": "com.wechatcloned.desktop",
+    "productName": "WeChat Cloned",
+    "artifactName": "${productName}-Setup-${version}.${ext}",
+    "directories": {
+      "output": "../project_support/build_output/release",
+      "buildResources": "../project_support/resources"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../project_support/build_output/dist/WeChatClonedBackend",
+        "to": "backend",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "../project_support/resources/icon.ico",
+      "publisherName": "WeChat Cloned"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "WeChat Cloned",
+      "deleteAppDataOnUninstall": false,
+      "displayLanguageSelector": false,
+      "installerIcon": "../project_support/resources/icon.ico",
+      "uninstallerIcon": "../project_support/resources/icon.ico",
+      "installerHeaderIcon": "../project_support/resources/icon.ico"
+    }
+  }
+}

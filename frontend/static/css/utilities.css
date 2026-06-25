@@ -1,0 +1,177 @@
+.hidden {
+    display: none !important;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive UX foundation — overflow, touch targets, focus, safe areas
+   -------------------------------------------------------------------------- */
+
+html {
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    max-width: 100vw;
+    overflow-x: clip;
+}
+
+img,
+video,
+svg,
+canvas {
+    max-width: 100%;
+}
+
+.touch-target,
+button.icon-btn,
+.search-clear,
+.emoji-tray button,
+.side-toggle-btn,
+.recent-chip,
+.message-action-btn,
+.message-quick-btn,
+.jump-latest,
+.selection-toolbar button,
+.message-search-nav .icon-btn,
+.reaction-pill,
+.message-retry-btn {
+    min-height: var(--touch-min, 44px);
+    min-width: var(--touch-min, 44px);
+}
+
+.side-toggle-btn,
+.reaction-pill,
+.auth-demo summary,
+.connection-banner {
+    min-height: var(--touch-min, 44px);
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid rgba(7, 193, 96, 0.72);
+    outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.safe-pad-x {
+    padding-left: max(var(--space-4, 16px), var(--safe-left));
+    padding-right: max(var(--space-4, 16px), var(--safe-right));
+}
+
+.safe-pad-bottom {
+    padding-bottom: max(var(--space-3, 12px), var(--safe-bottom));
+}
+
+.min-w-0 {
+    min-width: 0;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Breakpoint: 320px */
+@media (max-width: 320px) {
+    .auth-center-shell,
+    .auth-web-shell {
+        padding-left: max(12px, var(--safe-left));
+        padding-right: max(12px, var(--safe-right));
+    }
+
+    .auth-card {
+        padding-left: max(14px, var(--safe-left));
+        padding-right: max(14px, var(--safe-right));
+    }
+}
+
+/* Breakpoint: 360px */
+@media (max-width: 360px) {
+    .chat-header .chat-title-block h1 {
+        font-size: 15px;
+    }
+
+    .composer {
+        gap: 6px;
+        padding-left: max(8px, var(--safe-left));
+        padding-right: max(8px, var(--safe-right));
+    }
+}
+
+/* Breakpoint: 390px */
+@media (max-width: 390px) {
+    .file-card,
+    .message-thread .voice-card,
+    .voice-card {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+/* Breakpoint: 414px */
+@media (max-width: 414px) {
+    .message-thread .message-row,
+    .message-row {
+        max-width: min(90%, calc(100vw - 56px));
+    }
+
+    .flash-stack,
+    .toast-stack {
+        left: max(12px, var(--safe-left));
+        right: max(12px, var(--safe-right));
+        max-width: none;
+    }
+}
+
+/* Breakpoint: 768px */
+@media (max-width: 768px) {
+    .mobile-only {
+        display: inline-flex;
+    }
+
+    .chat-actions {
+        flex-shrink: 0;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: flex-end;
+        max-width: 100%;
+    }
+
+    .side-toggle-compact {
+        display: none;
+    }
+}
+
+/* Breakpoint: 1366px — no extra rules; shell uses fluid columns */
+@media (min-width: 1366px) {
+    .message-list {
+        padding-left: clamp(32px, 3vw, 56px);
+        padding-right: clamp(32px, 3vw, 56px);
+    }
+}

@@ -1,0 +1,41 @@
+:root {
+    --bg: #f5f7fb;
+    --panel: #ffffff;
+    --panel-strong: #eef3f8;
+    --text: #17202a;
+    --muted: #6b7788;
+    --line: #dce4ed;
+    --accent: #12a87e;
+    --accent-dark: #0d7f61;
+    --danger: #c74444;
+    --warning: #b7791f;
+    --bubble-me: #dff8ed;
+    --bubble-other: #ffffff;
+    --shadow: 0 16px 42px rgba(31, 42, 55, 0.12);
+
+    /* Responsive UX tokens */
+    --touch-min: 44px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --viewport-pad: max(12px, var(--safe-left));
+    --modal-max-h: min(90dvh, calc(100dvh - var(--safe-top) - var(--safe-bottom) - 32px));
+    --drawer-max-w: min(380px, calc(100vw - var(--safe-left) - var(--safe-right)));
+}
+
+body.dark {
+    --bg: #111827;
+    --panel: #182233;
+    --panel-strong: #202d42;
+    --text: #eef4fb;
+    --muted: #a4b1c2;
+    --line: #2e3b51;
+    --accent: #48c79c;
+    --accent-dark: #2aa77d;
+    --danger: #f87171;
+    --warning: #f6ad55;
+    --bubble-me: #204e42;
+    --bubble-other: #202d42;
+    --shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Register - WeChat Cloned{% endblock %}
+{% block body_class %}auth-page auth-register-page{% endblock %}
+
+{% block content %}
+<main class="auth-center-shell auth-web-shell" aria-labelledby="registerTitle">
+    <section class="auth-preview-panel surface-card surface-card--raised" aria-hidden="true">
+        <div class="auth-preview-brand">
+            <span class="auth-preview-logo">W</span>
+            <span>WeChat Cloned</span>
+        </div>
+        <div class="auth-browser-mock surface-card">
+            <div class="auth-browser-bar">
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+                <span class="auth-url-chip">wechat-cloned.local</span>
+            </div>
+            <div class="auth-chat-mock">
+                <div class="auth-chat-list">
+                    <div class="auth-chat-row active">
+                        <span class="mock-avatar">A</span>
+                        <div>
+                            <strong>Ahmed Khan</strong>
+                            <span>Group planning</span>
+                        </div>
+                    </div>
+                    <div class="auth-chat-row">
+                        <span class="mock-avatar alt">S</span>
+                        <div>
+                            <strong>Sana Iqbal</strong>
+                            <span>Lab notes</span>
+                        </div>
+                    </div>
+                    <div class="auth-chat-row">
+                        <span class="mock-avatar blue">H</span>
+                        <div>
+                            <strong>Hamza Ali</strong>
+                            <span>Viva prep</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="auth-message-preview" data-auth-preview>
+                    <div class="side-toggle auth-side-toggle" data-side-toggle role="group" aria-label="Message side view">
+                        <button type="button" class="side-toggle-btn active" data-side="receiver" aria-pressed="true">Receiver</button>
+                        <button type="button" class="side-toggle-btn" data-side="sender" aria-pressed="false">Sender</button>
+                    </div>
+                    <div class="mock-bubble">Create your account to join the workspace.</div>
+                    <div class="mock-bubble mine">I will use my university username.</div>
+                    <div class="mock-composer"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="auth-card surface-card surface-card--raised" aria-describedby="registerSubtitle">
+        <header class="auth-card-header">
+            <span class="auth-logo" aria-hidden="true">W</span>
+            <h1 id="registerTitle">Create Account</h1>
+            <p id="registerSubtitle">Set up your messaging identity</p>
+        </header>
+
+        <form class="auth-form refined-auth-form" method="post" action="{{ url_for('auth.register') }}" data-auth-form>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label class="form-field">
+                <span>Username</span>
+                <input name="username" autocomplete="username" required minlength="3" maxlength="40" pattern="[A-Za-z0-9_]+" aria-describedby="registerUsernameHint registerUsernameError">
+                <small class="field-hint" id="registerUsernameHint">Use 3-40 letters, numbers, or underscores.</small>
+                <small class="field-error" id="registerUsernameError" aria-live="polite"></small>
+            </label>
+
+            <label class="form-field">
+                <span>Display name</span>
+                <input name="display_name" autocomplete="name" maxlength="80" aria-describedby="displayNameError">
+                <small class="field-error" id="displayNameError" aria-live="polite"></small>
+            </label>
+
+            <label class="form-field">
+                <span>Password</span>
+                <input id="registerPassword" type="password" name="password" autocomplete="new-password" required minlength="8" aria-describedby="registerPasswordHint registerPasswordError">
+                <small class="field-hint" id="registerPasswordHint">Use at least 8 characters.</small>
+                <small class="field-error" id="registerPasswordError" aria-live="polite"></small>
+            </label>
+
+            <label class="form-field">
+                <span>Confirm password</span>
+                <input id="registerConfirmPassword" type="password" name="confirm_password" autocomplete="new-password" required minlength="8" aria-describedby="confirmPasswordError">
+                <small class="field-error" id="confirmPasswordError" aria-live="polite"></small>
+            </label>
+
+            <button class="primary-btn auth-submit" type="submit">Register</button>
+        </form>
+
+        <p class="auth-switch">Already registered? <a href="{{ url_for('auth.login') }}">Login</a></p>
+    </section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

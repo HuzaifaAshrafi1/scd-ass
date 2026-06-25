@@ -1,0 +1,224 @@
+/* Connection status — pills, banner, diagnostics center */
+
+.connection-pill {
+    align-items: center;
+    background: var(--surface-sunken, #f3f5f8);
+    border: 1px solid var(--surface-border, rgba(15, 23, 42, 0.08));
+    border-radius: 999px;
+    color: var(--wechat-text, #1f2329);
+    display: inline-flex;
+    font-size: 11px;
+    font-weight: 700;
+    gap: 6px;
+    line-height: 1;
+    max-width: 100%;
+    min-height: var(--touch-min, 44px);
+    min-width: 0;
+    padding: 0 12px;
+    white-space: nowrap;
+}
+
+.connection-pill-icon {
+    font-size: 10px;
+    line-height: 1;
+}
+
+.connection-pill[data-state="online"] .connection-pill-icon::before {
+    content: "●";
+    color: #22c55e;
+}
+
+.connection-pill[data-state="syncing"] .connection-pill-icon::before,
+.connection-pill[data-state="reconnecting"] .connection-pill-icon::before {
+    content: "◌";
+    color: #eab308;
+}
+
+.connection-pill[data-state="offline"] .connection-pill-icon::before {
+    content: "●";
+    color: #ef4444;
+}
+
+.connection-pill[data-state="online"] {
+    border-color: rgba(34, 197, 94, 0.25);
+}
+
+.connection-pill[data-state="syncing"],
+.connection-pill[data-state="reconnecting"] {
+    border-color: rgba(234, 179, 8, 0.35);
+}
+
+.connection-pill[data-state="offline"] {
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+.sidebar-header {
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.sidebar-header-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.connection-banner {
+    align-items: center;
+    background: #fff7ed;
+    border-bottom: 1px solid #fed7aa;
+    color: #9a3412;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    font-weight: 600;
+    gap: 10px;
+    justify-content: center;
+    min-height: var(--touch-min, 44px);
+    padding: 8px max(16px, var(--safe-left)) 8px max(16px, var(--safe-right));
+    text-align: center;
+}
+
+.connection-banner[data-level="error"] {
+    background: #fef2f2;
+    border-bottom-color: #fecaca;
+    color: #991b1b;
+}
+
+.connection-banner[data-level="warning"] {
+    background: #fffbeb;
+    border-bottom-color: #fde68a;
+    color: #92400e;
+}
+
+.connection-banner-icon {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.connection-banner[data-level="error"] .connection-banner-icon::before {
+    content: "● Offline";
+    color: #ef4444;
+}
+
+.connection-banner[data-level="warning"] .connection-banner-icon::before {
+    content: "◌ Reconnecting";
+    color: #eab308;
+}
+
+.connection-banner[data-level="info"] .connection-banner-icon::before {
+    content: "◌ Syncing";
+    color: #3b82f6;
+}
+
+body.dark .connection-banner {
+    background: #3b2f24;
+    border-bottom-color: #7c4a1d;
+    color: #fdba74;
+}
+
+body.dark .connection-banner[data-level="error"] {
+    background: #3f2222;
+    border-bottom-color: #7f1d1d;
+    color: #fca5a5;
+}
+
+.connection-diagnostics {
+    display: grid;
+    gap: 0;
+    margin: 0;
+}
+
+.connection-diagnostics-row {
+    align-items: center;
+    border-bottom: 1px solid var(--surface-border, rgba(15, 23, 42, 0.08));
+    display: grid;
+    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 44px;
+    padding: 10px 0;
+}
+
+.connection-diagnostics-row:last-child {
+    border-bottom: 0;
+}
+
+.connection-diagnostics-row dt {
+    color: var(--wechat-muted, #7c858f);
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.connection-diagnostics-row dd {
+    align-items: center;
+    color: var(--wechat-text, #1f2329);
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: 700;
+    gap: 6px;
+    justify-content: flex-end;
+    margin: 0;
+    text-align: right;
+}
+
+.connection-state-dot {
+    display: inline-block;
+    font-size: 10px;
+    line-height: 1;
+}
+
+.connection-state-dot[data-state="online"]::before {
+    color: #22c55e;
+    content: "●";
+}
+
+.connection-state-dot[data-state="connected"]::before {
+    color: #22c55e;
+    content: "●";
+}
+
+.connection-state-dot[data-state="syncing"]::before,
+.connection-state-dot[data-state="reconnecting"]::before,
+.connection-state-dot[data-state="degraded"]::before {
+    color: #eab308;
+    content: "◌";
+}
+
+.connection-state-dot[data-state="offline"]::before,
+.connection-state-dot[data-state="disconnected"]::before,
+.connection-state-dot[data-state="unavailable"]::before {
+    color: #ef4444;
+    content: "●";
+}
+
+.composer.is-offline {
+    opacity: 0.82;
+}
+
+.composer.is-offline .send-btn,
+.composer.is-offline #attachmentBtn {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+@media (max-width: 720px) {
+    .connection-pill-text {
+        max-width: 92px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar-header-actions {
+        width: 100%;
+    }
+
+    .connection-pill {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+}

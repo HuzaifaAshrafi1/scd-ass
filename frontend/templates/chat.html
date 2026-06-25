@@ -1,0 +1,362 @@
+{% extends "base.html" %}
+{% block title %}WeChat Cloned{% endblock %}
+{% block body_class %}chat-page{% endblock %}
+
+{% block content %}
+<div class="app-shell">
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+        <symbol id="icon-chat" viewBox="0 0 24 24">
+            <path d="M4 6.75A3.75 3.75 0 0 1 7.75 3h8.5A3.75 3.75 0 0 1 20 6.75v5.5A3.75 3.75 0 0 1 16.25 16H11l-4.35 3.1A1 1 0 0 1 5.08 18l.56-2.26A3.75 3.75 0 0 1 4 12.65v-5.9Z"/>
+        </symbol>
+        <symbol id="icon-contact" viewBox="0 0 24 24">
+            <path d="M12 12.5a4.2 4.2 0 1 0 0-8.4 4.2 4.2 0 0 0 0 8.4Zm-7.4 7.1c.68-3.35 3.57-5.3 7.4-5.3s6.72 1.95 7.4 5.3c.14.7-.42 1.3-1.14 1.3H5.74c-.72 0-1.28-.6-1.14-1.3Z"/>
+        </symbol>
+        <symbol id="icon-group" viewBox="0 0 24 24">
+            <path d="M8.2 11.3a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm7.7.2a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM2.8 19.9c.52-3.35 2.58-5.3 5.4-5.3s4.88 1.95 5.4 5.3c.1.64-.4 1.1-1.02 1.1H3.82c-.62 0-1.12-.46-1.02-1.1Zm12.38 1.1h4.98c.62 0 1.1-.48 1.02-1.1-.4-2.82-2.12-4.55-4.78-4.7a7.15 7.15 0 0 0-2.4-1.08c1.13 1.2 1.88 2.82 2.16 4.86.1.72-.23 1.42-.98 2.02Z"/>
+        </symbol>
+        <symbol id="icon-me" viewBox="0 0 24 24">
+            <path d="M12 13.2a4.7 4.7 0 1 0 0-9.4 4.7 4.7 0 0 0 0 9.4Zm-7.7 6.36c.75-3.12 3.67-5.02 7.7-5.02s6.95 1.9 7.7 5.02c.16.68-.4 1.34-1.1 1.34H5.4c-.7 0-1.26-.66-1.1-1.34Z"/>
+        </symbol>
+        <symbol id="icon-search" viewBox="0 0 24 24">
+            <path d="M10.8 4a6.8 6.8 0 0 1 5.36 10.98l3.43 3.43-1.18 1.18-3.43-3.43A6.8 6.8 0 1 1 10.8 4Zm0 1.7a5.1 5.1 0 1 0 0 10.2 5.1 5.1 0 0 0 0-10.2Z"/>
+        </symbol>
+        <symbol id="icon-close" viewBox="0 0 24 24">
+            <path d="m6.7 5.5 5.3 5.3 5.3-5.3 1.2 1.2-5.3 5.3 5.3 5.3-1.2 1.2-5.3-5.3-5.3 5.3-1.2-1.2 5.3-5.3-5.3-5.3 1.2-1.2Z"/>
+        </symbol>
+        <symbol id="icon-moon" viewBox="0 0 24 24">
+            <path d="M14.2 3.2a8 8 0 1 0 6.6 6.6 7 7 0 1 1-6.6-6.6Z"/>
+        </symbol>
+        <symbol id="icon-back" viewBox="0 0 24 24">
+            <path d="M14.8 5.2 8 12l6.8 6.8-1.2 1.2L5.6 12l8-8 1.2 1.2Z"/>
+        </symbol>
+        <symbol id="icon-info" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm-.95 7h1.9v6.2h-1.9v-6.2Zm0-3.2h1.9v1.8h-1.9V7.3Z"/>
+        </symbol>
+        <symbol id="icon-attach" viewBox="0 0 24 24">
+            <path d="M8.2 17.8a4.2 4.2 0 0 1 0-5.94l6.2-6.2a3 3 0 0 1 4.24 4.24l-6.52 6.52a1.8 1.8 0 1 1-2.54-2.54l5.95-5.95 1.2 1.2-5.95 5.95a.1.1 0 1 0 .14.14l6.52-6.52a1.3 1.3 0 0 0-1.84-1.84l-6.2 6.2a2.5 2.5 0 0 0 3.54 3.54l6.3-6.3 1.2 1.2-6.3 6.3a4.2 4.2 0 0 1-5.94 0Z"/>
+        </symbol>
+        <symbol id="icon-smile" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm-3 6.3a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Zm6 0a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Zm-6.2 5.1h1.7a1.7 1.7 0 0 0 3 0h1.7a3.4 3.4 0 0 1-6.4 0Z"/>
+        </symbol>
+    </svg>
+
+    <nav class="nav-rail" aria-label="Primary navigation">
+        <div class="rail-top">
+            <span class="rail-mark" title="WeChat Cloned">W</span>
+            <button class="rail-tab tab-btn active" type="button" data-panel="conversationsPanel" title="Chats" data-tooltip="Chats" aria-label="Chats">
+                <span class="rail-icon"><svg class="ui-icon"><use href="#icon-chat"></use></svg></span>
+                <span class="rail-label">Chats</span>
+            </button>
+            <button class="rail-tab tab-btn" type="button" data-panel="friendsPanel" title="Contacts" data-tooltip="Contacts" aria-label="Contacts">
+                <span class="rail-icon"><svg class="ui-icon"><use href="#icon-contact"></use></svg></span>
+                <span class="rail-label">Contacts</span>
+            </button>
+            <button class="rail-tab tab-btn" type="button" data-panel="groupsPanel" title="Groups" data-tooltip="Groups" aria-label="Groups">
+                <span class="rail-icon"><svg class="ui-icon"><use href="#icon-group"></use></svg></span>
+                <span class="rail-label">Groups</span>
+            </button>
+        </div>
+        <div class="rail-bottom">
+            <button class="rail-tab tab-btn" type="button" data-panel="settingsPanel" title="Me" data-tooltip="Me" aria-label="Profile and settings">
+                <span class="rail-icon"><svg class="ui-icon"><use href="#icon-me"></use></svg></span>
+                <span class="rail-label">Me</span>
+            </button>
+        </div>
+    </nav>
+
+    <aside class="sidebar" id="sidebar">
+        <header class="sidebar-header">
+            <div>
+                <h1 id="panelTitle">Chats</h1>
+                <p>Messaging workspace</p>
+            </div>
+            <div class="sidebar-header-actions">
+                <div class="connection-pill" id="connectionPill" data-state="online" role="status" aria-live="polite" aria-label="Backend Online">
+                    <span class="connection-pill-icon" aria-hidden="true"></span>
+                    <span class="connection-pill-text" id="connectionPillText">Backend Online</span>
+                </div>
+                <button class="icon-btn" id="darkModeToggle" type="button" title="Toggle dark mode" aria-label="Toggle dark mode">
+                    <svg class="ui-icon"><use href="#icon-moon"></use></svg>
+                </button>
+            </div>
+        </header>
+
+        <section class="side-panel active" id="conversationsPanel">
+            <div class="panel-tools search-stack panel-stack">
+                <div class="search-box surface-card--flat">
+                    <span class="search-icon" aria-hidden="true"><svg class="ui-icon"><use href="#icon-search"></use></svg></span>
+                    <input id="conversationFilter" type="search" placeholder="Search chats" aria-label="Search chats">
+                    <button class="search-clear" id="conversationSearchClear" type="button" aria-label="Clear chat search">
+                        <svg class="ui-icon"><use href="#icon-close"></use></svg>
+                    </button>
+                </div>
+                <div class="search-feedback" id="conversationSearchMeta"></div>
+                <div class="recent-searches" id="conversationRecentSearches" aria-label="Recent chat searches"></div>
+            </div>
+            <div class="list" id="conversationList"></div>
+        </section>
+
+        <section class="side-panel" id="friendsPanel">
+            <div class="panel-tools search-stack panel-stack">
+                <div class="search-box surface-card--flat">
+                    <span class="search-icon" aria-hidden="true"><svg class="ui-icon"><use href="#icon-search"></use></svg></span>
+                    <input id="userSearchInput" type="search" placeholder="Search people" aria-label="Search people">
+                    <button class="search-clear" id="userSearchClear" type="button" aria-label="Clear people search">
+                        <svg class="ui-icon"><use href="#icon-close"></use></svg>
+                    </button>
+                </div>
+                <div class="search-feedback" id="userSearchMeta">Type at least 2 characters to find users.</div>
+                <div class="recent-searches" id="userRecentSearches" aria-label="Recent people searches"></div>
+            </div>
+            <div class="section-header">
+                <h2 class="section-title">Results</h2>
+            </div>
+            <div class="list compact-list" id="userSearchResults"></div>
+            <div class="section-header">
+                <h2 class="section-title">Requests</h2>
+            </div>
+            <div class="list compact-list" id="requestList"></div>
+            <div class="section-header">
+                <h2 class="section-title">Friends</h2>
+            </div>
+            <div class="list compact-list" id="friendList"></div>
+        </section>
+
+        <section class="side-panel" id="groupsPanel">
+            <form class="group-form surface-card--flat content-group" id="createGroupForm">
+                <input id="groupName" required maxlength="120" placeholder="Group name" aria-label="Group name">
+                <textarea id="groupDescription" maxlength="300" rows="3" placeholder="Description" aria-label="Group description"></textarea>
+                <div class="section-header">
+                    <h2 class="section-title">Members</h2>
+                </div>
+                <div class="checkbox-list surface-card--flat" id="groupFriendChoices"></div>
+                <button class="primary-btn" type="submit">Create group</button>
+            </form>
+        </section>
+
+        <section class="side-panel" id="settingsPanel">
+            <div class="settings-user surface-card">
+                <div class="avatar" id="settingsAvatar"></div>
+                <div>
+                    <strong id="settingsName"></strong>
+                    <span id="settingsUsername"></span>
+                </div>
+            </div>
+            <div class="settings-section section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Account</h2>
+                </div>
+                <a class="menu-link" href="{{ url_for('profile.profile') }}">Edit profile</a>
+                <label class="toggle-row">
+                    <span>Dark mode</span>
+                    <input id="darkModeCheckbox" type="checkbox">
+                </label>
+            </div>
+            <div class="settings-section section-card" id="connectionCenter">
+                <div class="section-header">
+                    <h2 class="section-title">System Status</h2>
+                </div>
+                <div class="connection-diagnostics" id="connectionDiagnostics" aria-label="Connection diagnostics"></div>
+            </div>
+            <div class="settings-section section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Session</h2>
+                </div>
+                <form method="post" action="{{ url_for('auth.logout') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="danger-btn" type="submit">Logout</button>
+                </form>
+            </div>
+        </section>
+    </aside>
+
+    <main class="chat-main">
+        <div class="connection-banner hidden" id="connectionBanner" data-level="warning" role="status" aria-live="polite">
+            <span class="connection-banner-icon" aria-hidden="true"></span>
+            <span id="connectionBannerText">Reconnecting to backend...</span>
+        </div>
+        <section class="empty-state surface-card" id="emptyState" aria-labelledby="emptyStateTitle">
+            <span class="empty-mark" aria-hidden="true">W</span>
+            <h1 id="emptyStateTitle">No chat selected</h1>
+            <p>Choose a conversation from the list.</p>
+        </section>
+
+        <section class="chat-view hidden" id="chatView">
+            <header class="chat-header">
+                <button class="icon-btn mobile-only" id="mobileBackBtn" type="button" title="Back" aria-label="Back to conversations">
+                    <svg class="ui-icon"><use href="#icon-back"></use></svg>
+                </button>
+                <div class="avatar" id="chatAvatar"></div>
+                <div class="chat-title-block">
+                    <h1 id="chatTitle"></h1>
+                    <span id="chatStatus"></span>
+                </div>
+                <div class="chat-actions">
+                    <button class="icon-btn" id="messageSearchToggle" type="button" title="Search messages" aria-label="Search messages" aria-expanded="false" aria-controls="messageSearchBar">
+                        <svg class="ui-icon"><use href="#icon-search"></use></svg>
+                    </button>
+                    <button class="icon-btn" id="groupInfoBtn" type="button" title="Group info" aria-label="Group information" aria-expanded="false" aria-controls="groupDrawer">
+                        <svg class="ui-icon"><use href="#icon-info"></use></svg>
+                    </button>
+                </div>
+            </header>
+
+            <div class="message-view-bar" aria-label="Message view controls">
+                <span class="side-toggle-label">Message view</span>
+                <div class="side-toggle side-toggle-chat" data-side-toggle role="group" aria-label="Message side view">
+                    <button type="button" class="side-toggle-btn active" data-side="receiver" aria-pressed="true" title="Show receiver side">Receiver</button>
+                    <button type="button" class="side-toggle-btn" data-side="sender" aria-pressed="false" title="Show sender side">Sender</button>
+                </div>
+            </div>
+
+            <div class="message-search surface-card--flat hidden" id="messageSearchBar">
+                <div class="search-box surface-card--flat">
+                    <span class="search-icon" aria-hidden="true"><svg class="ui-icon"><use href="#icon-search"></use></svg></span>
+                    <input id="messageSearchInput" type="search" placeholder="Search this chat" aria-label="Search this chat">
+                    <button class="search-clear" id="messageSearchClear" type="button" aria-label="Clear message search">
+                        <svg class="ui-icon"><use href="#icon-close"></use></svg>
+                    </button>
+                </div>
+                <div class="search-feedback" id="messageSearchMeta"></div>
+                <div class="message-search-nav hidden" id="messageSearchNav" aria-label="Search result navigation">
+                    <button type="button" class="icon-btn" id="searchPrevBtn" title="Previous match" aria-label="Previous match">↑</button>
+                    <span id="messageSearchCount">0 / 0</span>
+                    <button type="button" class="icon-btn" id="searchNextBtn" title="Next match" aria-label="Next match">↓</button>
+                </div>
+            </div>
+
+            <div class="pinned-bar hidden" id="pinnedBar" role="region" aria-label="Pinned message">
+                <span class="pinned-bar-icon" aria-hidden="true">📌</span>
+                <span class="pinned-bar-text" id="pinnedText"></span>
+                <button type="button" class="icon-btn" id="pinnedUnpinBtn" title="Unpin" aria-label="Unpin message">×</button>
+            </div>
+
+            <div class="selection-toolbar hidden" id="selectionToolbar" role="toolbar" aria-label="Selected messages">
+                <span id="selectionCount">0 selected</span>
+                <button type="button" id="selectionCopyBtn">Copy</button>
+                <button type="button" id="selectionForwardBtn">Forward</button>
+                <button type="button" class="danger" id="selectionDeleteBtn">Delete</button>
+                <button type="button" id="selectionCancelBtn">Cancel</button>
+            </div>
+
+            <div class="message-list message-thread" id="messageList" role="list" aria-label="Messages"></div>
+            <button class="jump-latest hidden" id="jumpLatestBtn" type="button" aria-label="Jump to latest messages">Jump to latest</button>
+            <div class="typing-indicator" id="typingIndicator" aria-live="polite"></div>
+
+            <div class="reply-preview surface-card hidden" id="replyPreview" role="region" aria-label="Replying to message">
+                <div>
+                    <strong id="replyPreviewTitle"></strong>
+                    <span id="replyPreviewText"></span>
+                </div>
+                <button class="icon-btn" id="replyCancelBtn" type="button" title="Cancel reply" aria-label="Cancel reply">
+                    <svg class="ui-icon"><use href="#icon-close"></use></svg>
+                </button>
+            </div>
+
+            <form class="composer surface-card--flat" id="messageForm">
+                <input id="attachmentInput" type="file" accept="image/png,image/jpeg,image/gif,image/webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip">
+                <button class="icon-btn" id="attachmentBtn" type="button" title="Attach file" aria-label="Attach file">
+                    <svg class="ui-icon"><use href="#icon-attach"></use></svg>
+                </button>
+                <button class="icon-btn" id="emojiBtn" type="button" title="Emoji" aria-label="Open emoji picker" aria-expanded="false" aria-controls="emojiTray">
+                    <svg class="ui-icon"><use href="#icon-smile"></use></svg>
+                </button>
+                <div class="emoji-tray hidden" id="emojiTray"></div>
+                <input id="messageInput" autocomplete="off" maxlength="4000" placeholder="Type a message" aria-label="Type a message">
+                <button class="send-btn" type="submit" title="Send">Send</button>
+            </form>
+            <div class="attachment-chip surface-card hidden" id="attachmentChip" role="status" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <div class="drawer-scrim" id="drawerScrim"></div>
+    <aside class="info-drawer drawer-card" id="groupDrawer" aria-hidden="true" aria-labelledby="drawerTitle">
+        <header class="drawer-header">
+            <h2 id="drawerTitle">Group</h2>
+            <button class="icon-btn" id="drawerCloseBtn" type="button" title="Close" aria-label="Close group information">
+                <svg class="ui-icon"><use href="#icon-close"></use></svg>
+            </button>
+        </header>
+        <p id="drawerDescription"></p>
+        <div class="section-header">
+            <h2 class="section-title">Members</h2>
+        </div>
+        <div class="list compact-list" id="drawerMembers"></div>
+        <form id="addMembersForm" class="group-form surface-card--flat content-group hidden">
+            <div class="section-header">
+                <h2 class="section-title">Add friends</h2>
+            </div>
+            <div class="checkbox-list surface-card--flat" id="drawerFriendChoices"></div>
+            <button class="primary-btn" type="submit">Add members</button>
+        </form>
+    </aside>
+</div>
+
+<div class="context-menu menu-card hidden" id="messageContextMenu" role="menu" aria-label="Message actions">
+    <button type="button" data-action="reply" role="menuitem">Reply</button>
+    <button type="button" data-action="react" role="menuitem">React</button>
+    <button type="button" data-action="copy" role="menuitem">Copy</button>
+    <button type="button" data-action="forward" role="menuitem">Forward</button>
+    <button type="button" data-action="pin" role="menuitem">Pin</button>
+    <button type="button" data-action="edit" role="menuitem">Edit</button>
+    <button type="button" data-action="delete" role="menuitem">Delete</button>
+</div>
+
+<div class="reaction-picker hidden" id="reactionPicker" role="menu" aria-label="Choose reaction"></div>
+
+<div class="modal-scrim hidden" id="deleteModalScrim"></div>
+<div class="messaging-modal hidden" id="deleteModal" role="dialog" aria-labelledby="deleteModalTitle" aria-modal="true">
+    <h2 id="deleteModalTitle">Delete message?</h2>
+    <p>Choose whether to remove this message only for you or for everyone.</p>
+    <div class="modal-actions">
+        <button type="button" id="deleteForMeBtn">Delete for me</button>
+        <button type="button" class="danger" id="deleteForEveryoneBtn">Delete for everyone</button>
+        <button type="button" id="deleteCancelBtn">Cancel</button>
+    </div>
+</div>
+
+<div class="modal-scrim hidden" id="forwardModalScrim"></div>
+<div class="messaging-modal hidden" id="forwardModal" role="dialog" aria-labelledby="forwardModalTitle" aria-modal="true">
+    <h2 id="forwardModalTitle">Forward message</h2>
+    <div class="forward-list" id="forwardList"></div>
+    <div class="modal-actions">
+        <button type="button" class="primary-btn" id="forwardSubmitBtn">Forward</button>
+        <button type="button" id="forwardCancelBtn">Cancel</button>
+    </div>
+</div>
+
+<div class="image-lightbox hidden" id="imageLightbox" role="dialog" aria-label="Image preview">
+    <button type="button" class="lightbox-close icon-btn" title="Close" aria-label="Close preview">×</button>
+    <img src="" alt="">
+    <button type="button" class="lightbox-download" id="lightboxDownloadBtn">Open original</button>
+</div>
+
+<div class="toast-stack" id="toastStack" role="region" aria-label="Notifications" aria-live="polite"></div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    window.AppConfig = {
+        csrfToken: "{{ csrf_token() }}",
+        currentUserId: {{ current_user.id }},
+        currentUsername: "{{ current_user.username }}",
+        appVersion: "{{ app_version }}",
+        frontendVersion: "{{ frontend_version }}",
+        environment: "{{ 'desktop' if desktop_mode else 'web' }}",
+        healthUrl: "/health"
+    };
+</script>
+<script src="{{ url_for('static', filename='js/connection.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/socket.io.min.js') }}"></script>
+<script>
+    if (!window.io) {
+        const socketFallback = document.createElement("script");
+        socketFallback.src = "https://cdn.socket.io/4.7.5/socket.io.min.js";
+        socketFallback.crossOrigin = "anonymous";
+        document.head.appendChild(socketFallback);
+    }
+</script>
+<script src="{{ url_for('static', filename='js/messaging.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Login - WeChat Cloned{% endblock %}
+{% block body_class %}auth-page auth-login-page{% endblock %}
+
+{% block content %}
+<main class="auth-center-shell auth-web-shell" aria-labelledby="loginTitle">
+    <section class="auth-preview-panel surface-card surface-card--raised" aria-hidden="true">
+        <div class="auth-preview-brand">
+            <span class="auth-preview-logo">W</span>
+            <span>WeChat Cloned</span>
+        </div>
+        <div class="auth-browser-mock surface-card">
+            <div class="auth-browser-bar">
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+                <span class="auth-url-chip">wechat-cloned.local</span>
+            </div>
+            <div class="auth-chat-mock">
+                <div class="auth-chat-list">
+                    <div class="auth-chat-row active">
+                        <span class="mock-avatar">A</span>
+                        <div>
+                            <strong>Ahmed Khan</strong>
+                            <span>Assignment discussion</span>
+                        </div>
+                    </div>
+                    <div class="auth-chat-row">
+                        <span class="mock-avatar alt">F</span>
+                        <div>
+                            <strong>Fatima Noor</strong>
+                            <span>Presentation slides</span>
+                        </div>
+                    </div>
+                    <div class="auth-chat-row">
+                        <span class="mock-avatar blue">U</span>
+                        <div>
+                            <strong>Usman Tariq</strong>
+                            <span>Project update</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="auth-message-preview" data-auth-preview>
+                    <div class="side-toggle auth-side-toggle" data-side-toggle role="group" aria-label="Message side view">
+                        <button type="button" class="side-toggle-btn active" data-side="receiver" aria-pressed="true">Receiver</button>
+                        <button type="button" class="side-toggle-btn" data-side="sender" aria-pressed="false">Sender</button>
+                    </div>
+                    <div class="mock-bubble">Assalam o Alaikum, are we ready for the demo?</div>
+                    <div class="mock-bubble mine">Yes, final testing is complete.</div>
+                    <div class="mock-composer"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="auth-card surface-card surface-card--raised" aria-describedby="loginSubtitle">
+        <header class="auth-card-header">
+            <span class="auth-logo" aria-hidden="true">W</span>
+            <h1 id="loginTitle">WeChat Cloned</h1>
+            <p id="loginSubtitle">Sign in to continue</p>
+        </header>
+
+        <form class="auth-form refined-auth-form" method="post" action="{{ url_for('auth.login') }}" data-auth-form>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label class="form-field">
+                <span>Username</span>
+                <input id="loginUsername" name="username" autocomplete="username" required maxlength="40" autofocus aria-describedby="loginUsernameError">
+                <small class="field-error" id="loginUsernameError" aria-live="polite"></small>
+            </label>
+
+            <label class="form-field">
+                <span>Password</span>
+                <input id="loginPassword" type="password" name="password" autocomplete="current-password" required aria-describedby="loginPasswordError">
+                <small class="field-error" id="loginPasswordError" aria-live="polite"></small>
+            </label>
+
+            <button class="primary-btn auth-submit" type="submit">Login</button>
+        </form>
+
+        <details class="auth-demo surface-card surface-card--flat">
+            <summary>Use a demo account</summary>
+            <div class="auth-demo-content" aria-label="Demo account credentials">
+                <p>Recommended demo: <strong>user</strong> / <strong>12345678</strong></p>
+                <div class="auth-demo-grid">
+                    <button type="button" data-username="user" data-password="12345678">
+                        <strong>Demo User</strong>
+                        <span>user</span>
+                    </button>
+                    <button type="button" data-username="ahmed" data-password="Password123!">
+                        <strong>Ahmed Khan</strong>
+                        <span>ahmed</span>
+                    </button>
+                    <button type="button" data-username="ayesha" data-password="Password123!">
+                        <strong>Ayesha Siddiqui</strong>
+                        <span>ayesha</span>
+                    </button>
+                    <button type="button" data-username="usman" data-password="Password123!">
+                        <strong>Usman Tariq</strong>
+                        <span>usman</span>
+                    </button>
+                    <button type="button" data-username="fatima" data-password="Password123!">
+                        <strong>Fatima Noor</strong>
+                        <span>fatima</span>
+                    </button>
+                </div>
+            </div>
+        </details>
+
+        <p class="auth-switch">New here? <a href="{{ url_for('auth.register') }}">Create an account</a></p>
+    </section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

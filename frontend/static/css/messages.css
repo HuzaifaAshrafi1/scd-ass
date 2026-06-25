@@ -1,0 +1,681 @@
+/* ==========================================================================
+   Messaging UX Layer — sender/receiver bubbles, grouping, metadata
+   Scoped to .message-thread; does not redesign the broader app shell.
+   ========================================================================== */
+
+.message-thread {
+    --msg-bubble-me: #95ec69;
+    --msg-bubble-me-text: #14210f;
+    --msg-bubble-me-meta: #3d6b34;
+    --msg-bubble-theirs: #ffffff;
+    --msg-bubble-theirs-text: #1f2329;
+    --msg-bubble-theirs-meta: #8d949d;
+    --msg-bubble-radius: 14px;
+    --msg-bubble-radius-sm: 6px;
+    --msg-group-gap: 3px;
+    --msg-cluster-gap: 12px;
+    --msg-readable-width: min(100%, 42rem);
+    gap: 0;
+    padding: var(--space-4, 16px) var(--space-4, 16px) var(--space-5, 24px);
+}
+
+body.dark .message-thread {
+    --msg-bubble-me: #2f5f42;
+    --msg-bubble-me-text: #e8f5e9;
+    --msg-bubble-me-meta: #8fd4a0;
+    --msg-bubble-theirs: #30353e;
+    --msg-bubble-theirs-text: #eef2f7;
+    --msg-bubble-theirs-meta: #9aa3b2;
+}
+
+/* --------------------------------------------------------------------------
+   Message rows & clustering
+   -------------------------------------------------------------------------- */
+
+.message-thread .message-row {
+    align-items: flex-end;
+    display: flex;
+    gap: 8px;
+    margin-top: var(--msg-cluster-gap);
+    max-width: min(78%, var(--msg-readable-width));
+    position: relative;
+    transition: transform 0.14s ease;
+}
+
+.message-thread .message-row.group-middle,
+.message-thread .message-row.group-end {
+    margin-top: var(--msg-group-gap);
+}
+
+.message-thread .message-row.mine {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message-thread .message-row.theirs {
+    align-self: flex-start;
+}
+
+.message-thread .message-row.is-new {
+    animation: messageArrive 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.message-thread .message-row.is-selected {
+    z-index: 2;
+}
+
+.message-thread .message-row.is-selected .message-bubble {
+    box-shadow: 0 0 0 2px rgba(7, 193, 96, 0.35), 0 8px 24px rgba(15, 23, 42, 0.1);
+}
+
+.message-thread .message-row:focus-visible {
+    outline: none;
+}
+
+.message-thread .message-row:focus-visible .message-bubble {
+    outline: 2px solid rgba(7, 193, 96, 0.55);
+    outline-offset: 2px;
+}
+
+@keyframes messageArrive {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Avatars & presence
+   -------------------------------------------------------------------------- */
+
+.message-thread .message-row .avatar {
+    border-radius: 8px;
+    flex: 0 0 36px;
+    height: 36px;
+    width: 36px;
+}
+
+.message-thread .message-row .avatar.avatar-spacer {
+    background: transparent;
+    box-shadow: none;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.message-thread .message-row .avatar.is-online::after {
+    background: #22c55e;
+    border: 2px solid var(--wechat-app-bg, #ededed);
+    border-radius: 50%;
+    bottom: -2px;
+    content: "";
+    height: 10px;
+    position: absolute;
+    right: -2px;
+    width: 10px;
+}
+
+.message-thread .message-row .avatar {
+    position: relative;
+}
+
+body.dark .message-thread .message-row .avatar.is-online::after {
+    border-color: var(--wechat-app-bg, #1f2229);
+}
+
+/* --------------------------------------------------------------------------
+   Bubbles — base
+   -------------------------------------------------------------------------- */
+
+.message-thread .message-bubble {
+    background: var(--msg-bubble-theirs);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: var(--msg-bubble-radius);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+    color: var(--msg-bubble-theirs-text);
+    font-size: 14px;
+    line-height: 1.55;
+    max-width: 100%;
+    min-width: 72px;
+    padding: 8px 11px 6px;
+    position: relative;
+    transition:
+        box-shadow 0.16s ease,
+        transform 0.14s ease;
+}
+
+.message-thread .message-row.mine .message-bubble {
+    background: var(--msg-bubble-me);
+    border-color: rgba(7, 193, 96, 0.18);
+    color: var(--msg-bubble-me-text);
+}
+
+.message-thread .message-row:not(.skeleton-message):hover .message-bubble {
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+}
+
+.message-thread .message-row.mine:not(.skeleton-message):hover .message-bubble {
+    transform: translateX(-1px);
+}
+
+.message-thread .message-row.theirs:not(.skeleton-message):hover .message-bubble {
+    transform: translateX(1px);
+}
+
+/* Hide default tails from legacy styles; grouping tails below */
+.message-thread .message-bubble::before {
+    display: none;
+}
+
+/* Dynamic corner radii — received (theirs) */
+.message-thread .message-row.theirs.group-single .message-bubble {
+    border-bottom-left-radius: var(--msg-bubble-radius-sm);
+}
+
+.message-thread .message-row.theirs.group-start .message-bubble {
+    border-bottom-left-radius: var(--msg-bubble-radius-sm);
+}
+
+.message-thread .message-row.theirs.group-middle .message-bubble {
+    border-bottom-left-radius: var(--msg-bubble-radius-sm);
+    border-top-left-radius: var(--msg-bubble-radius-sm);
+}
+
+.message-thread .message-row.theirs.group-end .message-bubble {
+    border-top-left-radius: var(--msg-bubble-radius-sm);
+}
+
+/* Dynamic corner radii — sent (mine) */
+.message-thread .message-row.mine.group-single .message-bubble {
+    border-bottom-right-radius: var(--msg-bubble-radius-sm);
+}
+
+.message-thread .message-row.mine.group-start .message-bubble {
+    border-bottom-right-radius: var(--msg-bubble-radius-sm);
+}
+
+.message-thread .message-row.mine.group-middle .message-bubble {
+    border-bottom-right-radius: var(--msg-bubble-radius-sm);
+    border-top-right-radius: var(--msg-bubble-radius-sm);
+}
+
+.message-thread .message-row.mine.group-end .message-bubble {
+    border-top-right-radius: var(--msg-bubble-radius-sm);
+}
+
+/* Cluster tail nub */
+.message-thread .message-row.group-end.theirs .message-bubble::after,
+.message-thread .message-row.group-single.theirs .message-bubble::after {
+    background: var(--msg-bubble-theirs);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    border-left: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 0 0 0 4px;
+    bottom: 0;
+    content: "";
+    height: 10px;
+    left: -5px;
+    position: absolute;
+    transform: skewX(-28deg);
+    width: 10px;
+}
+
+.message-thread .message-row.group-end.mine .message-bubble::after,
+.message-thread .message-row.group-single.mine .message-bubble::after {
+    background: var(--msg-bubble-me);
+    border-bottom: 1px solid rgba(7, 193, 96, 0.18);
+    border-radius: 0 0 4px 0;
+    border-right: 1px solid rgba(7, 193, 96, 0.18);
+    bottom: 0;
+    content: "";
+    height: 10px;
+    position: absolute;
+    right: -5px;
+    transform: skewX(28deg);
+    width: 10px;
+}
+
+body.dark .message-thread .message-row.group-end.theirs .message-bubble::after,
+body.dark .message-thread .message-row.group-single.theirs .message-bubble::after {
+    background: var(--msg-bubble-theirs);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* --------------------------------------------------------------------------
+   Author, body, readability
+   -------------------------------------------------------------------------- */
+
+.message-thread .message-author {
+    color: var(--accent-dark, #0d7f61);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
+.message-thread .message-body {
+    font-size: 14px;
+    line-height: 1.55;
+    max-width: 38ch;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.message-thread .message-body .message-link {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(7, 193, 96, 0.45);
+    text-underline-offset: 2px;
+}
+
+.message-thread .message-row.mine .message-body .message-link {
+    text-decoration-color: rgba(20, 33, 15, 0.35);
+}
+
+.message-thread .message-body code,
+.message-thread .message-body .inline-code {
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.92em;
+    padding: 1px 5px;
+}
+
+.message-thread .message-row.mine .message-body code,
+.message-thread .message-row.mine .message-body .inline-code {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.message-thread .message-body .emoji-char {
+    font-size: 1.25em;
+    line-height: 1;
+    vertical-align: -0.1em;
+}
+
+.message-thread .message-deleted {
+    color: var(--msg-bubble-theirs-meta);
+    font-style: italic;
+}
+
+.message-thread .message-row.mine .message-deleted {
+    color: var(--msg-bubble-me-meta);
+}
+
+/* --------------------------------------------------------------------------
+   Reply quotes inside bubbles
+   -------------------------------------------------------------------------- */
+
+.message-thread .reply-quote {
+    background: rgba(0, 0, 0, 0.04);
+    border-left: 3px solid rgba(7, 193, 96, 0.65);
+    border-radius: 8px;
+    display: grid;
+    gap: 2px;
+    margin-bottom: 6px;
+    padding: 6px 8px;
+}
+
+.message-thread .message-row.mine .reply-quote {
+    background: rgba(0, 0, 0, 0.06);
+    border-left-color: rgba(20, 33, 15, 0.35);
+}
+
+.message-thread .reply-quote strong {
+    color: var(--accent-dark, #0d7f61);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.message-thread .message-row.mine .reply-quote strong {
+    color: var(--msg-bubble-me-meta);
+}
+
+.message-thread .reply-quote span {
+    color: var(--msg-bubble-theirs-meta);
+    font-size: 12px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Footer: timestamp, delivery, hover actions
+   -------------------------------------------------------------------------- */
+
+.message-thread .message-footer {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+    margin-top: 4px;
+    min-height: 16px;
+}
+
+.message-thread .message-footer time {
+    color: var(--msg-bubble-theirs-meta);
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.message-thread .message-row.mine .message-footer time {
+    color: var(--msg-bubble-me-meta);
+}
+
+.message-thread .message-status {
+    align-items: center;
+    color: var(--msg-bubble-me-meta);
+    display: inline-flex;
+    font-size: 10px;
+    font-weight: 700;
+    gap: 2px;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.message-thread .message-status::before {
+    content: "✓";
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.message-thread .message-status[data-status="delivered"]::before,
+.message-thread .message-status[data-status="seen"]::before {
+    content: "✓✓";
+    letter-spacing: -3px;
+}
+
+.message-thread .message-status[data-status="seen"] {
+    color: #3b82f6;
+}
+
+.message-thread .message-status[data-status="seen"]::before {
+    color: #3b82f6;
+}
+
+.message-thread .message-tools {
+    display: inline-flex;
+    gap: 2px;
+    margin-left: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.14s ease;
+}
+
+.message-thread .message-row:hover .message-tools,
+.message-thread .message-row:focus-within .message-tools,
+.message-thread .message-row.is-selected .message-tools {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.message-thread .message-action-btn {
+    background: rgba(0, 0, 0, 0.05);
+    border: 0;
+    border-radius: 6px;
+    color: var(--msg-bubble-theirs-meta);
+    font-size: 11px;
+    font-weight: 600;
+    min-height: var(--touch-min, 44px);
+    min-width: var(--touch-min, 44px);
+    padding: 0 10px;
+    transition: background 0.12s ease, color 0.12s ease;
+}
+
+.message-thread .message-row.mine .message-action-btn {
+    background: rgba(0, 0, 0, 0.07);
+    color: var(--msg-bubble-me-meta);
+}
+
+.message-thread .message-action-btn:hover,
+.message-thread .message-action-btn:focus-visible {
+    background: rgba(7, 193, 96, 0.14);
+    color: var(--accent-dark, #0d7f61);
+}
+
+.message-thread .message-action-btn.danger:hover,
+.message-thread .message-action-btn.danger:focus-visible {
+    background: rgba(199, 68, 68, 0.12);
+    color: var(--danger, #c74444);
+}
+
+/* --------------------------------------------------------------------------
+   Media & attachments inside bubbles
+   -------------------------------------------------------------------------- */
+
+.message-thread .message-bubble--media {
+    padding: 4px;
+}
+
+.message-thread .message-bubble--media .message-footer {
+    margin-top: 6px;
+    padding: 0 6px 2px;
+}
+
+.message-thread .attachment-preview {
+    display: block;
+    margin: 0;
+    text-decoration: none;
+}
+
+.message-thread .image-preview {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.message-thread .image-preview.attachment-card {
+    border: 0;
+    box-shadow: none;
+    max-width: min(320px, 70vw);
+    padding: 0;
+}
+
+.message-thread .chat-image {
+    border-radius: 10px;
+    display: block;
+    max-height: 280px;
+    max-width: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.message-thread .file-card.attachment-card {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(15, 23, 42, 0.08);
+    margin-top: 0;
+    max-width: 100%;
+}
+
+.message-thread .message-row.mine .file-card.attachment-card {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.message-thread .voice-card {
+    align-items: center;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    min-height: var(--touch-min, 44px);
+    min-width: 0;
+    padding: 8px 12px;
+    width: 100%;
+}
+
+.message-thread .voice-card::before {
+    content: "▶";
+    font-size: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   Search highlight, separators
+   -------------------------------------------------------------------------- */
+
+.message-thread .search-highlight {
+    background: rgba(250, 204, 21, 0.45);
+    border-radius: 3px;
+    box-decoration-break: clone;
+    color: inherit;
+    padding: 0 2px;
+}
+
+body.dark .message-thread .search-highlight {
+    background: rgba(234, 179, 8, 0.35);
+}
+
+.message-thread .message-time-separator {
+    align-self: center;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 999px;
+    color: var(--wechat-muted, #7c858f);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    margin: 14px auto;
+    padding: 5px 12px;
+}
+
+.message-thread .unread-separator {
+    align-items: center;
+    align-self: stretch;
+    color: var(--accent, #12a87e);
+    display: grid;
+    font-size: 11px;
+    font-weight: 800;
+    gap: 10px;
+    grid-template-columns: 1fr auto 1fr;
+    letter-spacing: 0.04em;
+    margin: 12px 0;
+    text-transform: uppercase;
+}
+
+.message-thread .unread-separator::before,
+.message-thread .unread-separator::after {
+    background: linear-gradient(90deg, transparent, rgba(7, 193, 96, 0.45), transparent);
+    content: "";
+    height: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Floating row actions (desktop)
+   -------------------------------------------------------------------------- */
+
+.message-thread .message-row-actions {
+    align-items: center;
+    display: none;
+    gap: 4px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.14s ease;
+}
+
+.message-thread .message-row.theirs .message-row-actions {
+    right: -4px;
+    transform: translate(100%, -50%);
+}
+
+.message-thread .message-row.mine .message-row-actions {
+    left: -4px;
+    transform: translate(-100%, -50%);
+}
+
+@media (min-width: 721px) {
+    .message-thread .message-row:hover .message-row-actions,
+    .message-thread .message-row:focus-within .message-row-actions,
+    .message-thread .message-row.is-selected .message-row-actions {
+        display: inline-flex;
+        opacity: 1;
+    }
+}
+
+.message-thread .message-quick-btn {
+    align-items: center;
+    background: var(--surface-raised, #fff);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+    color: var(--wechat-muted, #7c858f);
+    display: inline-flex;
+    font-size: 11px;
+    font-weight: 700;
+    height: var(--touch-min, 44px);
+    justify-content: center;
+    min-width: var(--touch-min, 44px);
+    padding: 0 12px;
+}
+
+.message-thread .message-quick-btn:hover,
+.message-thread .message-quick-btn:focus-visible {
+    border-color: rgba(7, 193, 96, 0.35);
+    color: var(--accent-dark, #0d7f61);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+    .message-thread {
+        padding: var(--space-3, 12px) var(--space-3, 12px) var(--space-4, 16px);
+    }
+
+    .message-thread .message-row {
+        max-width: min(88%, 100%);
+    }
+
+    .message-thread .message-body {
+        max-width: none;
+    }
+
+    .message-thread .message-tools {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+.message-thread .message-action-btn {
+        min-height: var(--touch-min, 44px);
+        min-width: var(--touch-min, 44px);
+        padding: 0 10px;
+    }
+
+    .message-thread .chat-image {
+        max-height: 220px;
+    }
+
+    .message-thread .message-row .avatar {
+        flex-basis: 32px;
+        height: 32px;
+        width: 32px;
+    }
+}
+
+@media (max-width: 320px) {
+    .message-thread .message-row {
+        max-width: 92%;
+    }
+
+    .message-thread .message-bubble {
+        min-width: 64px;
+        padding: 7px 9px 5px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .message-thread .message-row.is-new {
+        animation: none;
+    }
+}

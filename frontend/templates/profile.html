@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Profile - WeChat Cloned{% endblock %}
+{% block body_class %}profile-page{% endblock %}
+
+{% block content %}
+<main class="profile-shell">
+    <section class="profile-panel surface-card surface-card--raised" aria-labelledby="profileTitle">
+        <header class="profile-header">
+            <a class="icon-btn text-icon" href="{{ url_for('chat.chat') }}" title="Back to chat" aria-label="Back to chat">Back</a>
+            <div>
+                <h1 id="profileTitle">Profile</h1>
+                <p>Manage your messaging identity</p>
+            </div>
+        </header>
+
+        <form class="profile-form content-group" method="post" enctype="multipart/form-data" action="{{ url_for('profile.profile') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <section class="profile-section section-card" aria-labelledby="profilePhotoHeading">
+                <div class="section-header">
+                    <h2 class="section-title" id="profilePhotoHeading">Photo</h2>
+                </div>
+                <div class="profile-photo-row">
+                    <div class="avatar avatar-xl" data-initials="{{ current_user.display_name[:2].upper() }}">
+                        {% if current_user.profile_photo %}
+                            <img id="avatarPreview" src="{{ current_user.profile_photo }}" alt="">
+                        {% endif %}
+                    </div>
+                    <label class="upload-btn">
+                        Upload photo
+                        <input id="profilePhotoInput" type="file" name="profile_photo" accept="image/png,image/jpeg,image/gif,image/webp">
+                    </label>
+                </div>
+            </section>
+
+            <section class="profile-section section-card" aria-labelledby="profileAccountHeading">
+                <div class="section-header">
+                    <h2 class="section-title" id="profileAccountHeading">Account</h2>
+                </div>
+                <label>
+                    Username
+                    <input value="{{ current_user.username }}" disabled>
+                </label>
+                <label>
+                    Display name
+                    <input name="display_name" value="{{ current_user.display_name }}" maxlength="80" required>
+                </label>
+            </section>
+
+            <section class="profile-section section-card" aria-labelledby="profileAboutHeading">
+                <div class="section-header">
+                    <h2 class="section-title" id="profileAboutHeading">About</h2>
+                </div>
+                <label>
+                    Bio
+                    <textarea name="bio" maxlength="280" rows="5">{{ current_user.bio or "" }}</textarea>
+                </label>
+            </section>
+            <button class="primary-btn" type="submit">Save profile</button>
+        </form>
+    </section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}
