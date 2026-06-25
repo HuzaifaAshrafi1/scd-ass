@@ -104,6 +104,38 @@ python seed.py
 python app.py
 ```
 
+## Live Deployment
+
+The repository includes production entry points for GitHub-based hosting:
+
+- `Procfile` for platforms that detect Python web apps.
+- `render.yaml` for one-click Render deployment with a persistent SQLite database and upload storage.
+- `runtime.txt` to pin Python 3.11.
+
+Recommended Render steps:
+
+1. Push the latest code to GitHub.
+2. In Render, create a new **Blueprint** and select this repository.
+3. Render will read `render.yaml`, install `backend/requirements.txt`, and start the Flask app with Gunicorn.
+4. After the first deploy, open `/health` on the live URL to confirm the app and database are working.
+
+Important environment variables:
+
+```text
+SECRET_KEY                 Required in production; Render generates it from render.yaml.
+SESSION_COOKIE_SECURE      Set to true when using HTTPS.
+DATABASE_URL               SQLite path or another SQLAlchemy database URL.
+WECHAT_CLONED_DATA_DIR     Persistent data folder.
+WECHAT_CLONED_UPLOAD_ROOT  Persistent upload folder.
+WECHAT_CLONED_LOG_DIR      Persistent log folder.
+```
+
+To add demo users on the live server, run this command in the host shell after deployment:
+
+```sh
+cd backend && python seed.py
+```
+
 ## SQLite Schema
 
 The canonical schema is in `backend/schema.sql`. The app creates the SQLite database with SQLAlchemy when you run `flask init-db` or `python app.py`.

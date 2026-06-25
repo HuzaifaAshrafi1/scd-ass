@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: scd-ass-chat
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && gunicorn --worker-class gthread --threads 100 --timeout 120 --bind 0.0.0.0:$PORT app:app
+    disk:
+      name: app-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+      - key: DATABASE_URL
+        value: sqlite:////var/data/database.db
+      - key: WECHAT_CLONED_DATA_DIR
+        value: /var/data
+      - key: WECHAT_CLONED_UPLOAD_ROOT
+        value: /var/data/uploads
+      - key: WECHAT_CLONED_LOG_DIR
+        value: /var/data/logs

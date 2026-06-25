@@ -12,6 +12,11 @@ FRONTEND_VERSION = os.environ.get("WECHAT_CLONED_FRONTEND_VERSION", "1.0.0")
 DESKTOP_MODE = os.environ.get("WECHAT_CLONED_DESKTOP", "0") == "1"
 
 
+def env_path(name):
+    value = os.environ.get(name)
+    return Path(value) if value else None
+
+
 def resource_path(*parts):
     if getattr(sys, "frozen", False):
         return Path(sys._MEIPASS, *parts)
@@ -30,10 +35,12 @@ def default_app_data_dir():
 
 FRONTEND_DIR = resource_path("frontend")
 APP_DATA_DIR = default_app_data_dir() if DESKTOP_MODE else BASE_DIR
-DATA_DIR = APP_DATA_DIR / "data" if DESKTOP_MODE else BASE_DIR
+DATA_DIR = env_path("WECHAT_CLONED_DATA_DIR") or (APP_DATA_DIR / "data" if DESKTOP_MODE else BASE_DIR)
 SETTINGS_DIR = APP_DATA_DIR / "settings" if DESKTOP_MODE else BASE_DIR
-LOG_DIR = APP_DATA_DIR / "logs" if DESKTOP_MODE else BASE_DIR
-UPLOAD_ROOT = APP_DATA_DIR / "uploads" if DESKTOP_MODE else FRONTEND_DIR / "static" / "uploads"
+LOG_DIR = env_path("WECHAT_CLONED_LOG_DIR") or (APP_DATA_DIR / "logs" if DESKTOP_MODE else BASE_DIR)
+UPLOAD_ROOT = env_path("WECHAT_CLONED_UPLOAD_ROOT") or (
+    APP_DATA_DIR / "uploads" if DESKTOP_MODE else FRONTEND_DIR / "static" / "uploads"
+)
 
 
 def desktop_secret_key():
@@ -61,7 +68,7 @@ class Config:
         SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATA_DIR / 'database.db'}"
     else:
         SQLALCHEMY_DATABASE_URI = os.environ.get(
-            "DATABASE_URL", f"sqlite:///{BASE_DIR / 'database.db'}"
+            "DATABASE_URL", f"sqlite:///{DATA_DIR / 'database.db'}"
         )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
